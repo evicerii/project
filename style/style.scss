@@ -1,12 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&family=Raleway:wght@300;400;500;700&display=swap');
+
 header{
     width: 100%;
     display: flex;
     justify-content: space-around;
-    vertical-align: middle;
+    align-items: center;
     position: fixed;
     height: 130px;
     .logoImg{
+        margin-top: -3px;
         width: 20%;
+        display: flex;
+        align-items: center;
+        svg{
+            margin-top: -15px;
+        }
+        p{
+            font-size: 34px;
+            font-family: "Raleway";
+            color: rgb(255, 255, 255);
+            line-height: 1.2;
+            text-align: right;
+        }
     }
     nav{
         width: 50%;
@@ -16,17 +31,82 @@ header{
             justify-content: space-between;
             a{
                 text-decoration: none;
-                color:black;
+                color:white;
             }
         }
     }
+    .iconCont{
+        display: flex;
+        justify-content: left;
+        transform: translateY(-30%);
+    }
+    .searchBar{
+        input{
+            display: none;
+        }
+
+    }
+    .cart{
+        margin-left: 20px;
+    }
 }
 #main{
-    .carouselMain{
+    height: 100vh;
+    #carouselMain{
         width: 100%;
-        height: 100vh;
-        position: relative;
         z-index: -1;
         top:0;
+        position: absolute;
+        height: 100%;
+        img{
+            object-fit: cover;
+        }
+        .slideIndicatorMain{
+            
+        }
+    }
+    h2{
+        font-size: 36px;
+        font-family: "Raleway";
+        color: rgb(255, 255, 255);
+        line-height: 1.2;
+        text-align: center;
+        padding-top: 240px;
+    }
+    h1{
+        font-size: 52px;
+        font-family: "Raleway";
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        line-height: 1.2;
+        text-align: center;
+    }
+    p{
+        font-size: 16px;
+        font-family: "Montserrat";
+        color: rgb(255, 255, 255);
+        line-height: 1.5;
+        text-align: center;
+        margin: auto;
+        width: 562px;
+        height: 39px;
+    }
+    .getStarted{
+        border-radius: 3px;
+        border: none;
+        box-shadow:0px 3px 0px 0px rgba(115, 99, 87, 0.4);
+        width: 170px;
+        height: 53px;
+        background-color: #998675;
+        display: block;
+        margin: 20px auto 0;
+
+        font-size: 14px;
+        font-family: "Raleway";
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        text-transform: uppercase;
+        line-height: 1.643;
+        text-align: center;
     }
 }
