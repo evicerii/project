@@ -1,6 +1,6 @@
-const figure = document.querySelector(".figure")
+const figure = document.querySelector(".blackKing")
 let dragging = false
-
+let startArea = figure.closest('.columnField').querySelector('.field');
 let startX = 0
 let startY = 0
 
@@ -20,6 +20,25 @@ document.body.addEventListener("mousemove", (e) => {
   figure.style.left = `${e.pageX - startX}px`
 })
 
-document.body.addEventListener("mouseup", () => {
-  dragging = false
+document.body.addEventListener("mouseup", (event) => {
+    checkSubElement(event).append(figure)
+    
+    //Возвращение эл-ту базовых ха-к
+    figure.style.left = '';
+    figure.style.top = '';
+    dragging = false
 })
+
+function checkSubElement(event){
+    figure.style.display = 'none';
+    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+    figure.style.display = 'block';
+    if (!elemBelow) return;
+    let droppableBelow = elemBelow.closest('.activeToMove');
+    if (droppableBelow){
+        return droppableBelow;
+    }
+    else{
+        return startArea;
+    }
+}

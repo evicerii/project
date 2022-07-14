@@ -30,6 +30,7 @@
 
 .figure {
   position: absolute;
+  z-index: 3;
   display: block;
   top: 0;
   width: 80px;
@@ -39,8 +40,10 @@
 }
 
 .activeToMove {
-  z-index: 2;
-  position: relative;
+  z-index: 1;
+  width: 80px;
+  height: 80px;
+  position: absolute;
   -webkit-box-shadow: 0 0 5px 5px green;
           box-shadow: 0 0 5px 5px green;
 }

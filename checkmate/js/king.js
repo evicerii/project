@@ -41,7 +41,7 @@ function showKingField(){
     while((tempRowNumber) <= (temp1)){
         while((tempColumnNumber) <= (temp2)){
             let pos = document.getElementsByClassName('rowField')[tempRowNumber].getElementsByClassName('columnField')[tempColumnNumber]
-            pos.classList.add('activeToMove')
+            pos.insertAdjacentHTML("beforebegin",'<div class="activeToMove"></div>');
             tempColumnNumber++;
         }
         tempColumnNumber=columnNumber-1;

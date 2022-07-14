@@ -10,7 +10,6 @@ Vue.createApp({
 
         //pos black king
         let blackKing = document.createElement('div');
-        blackKing.className="blackKing";
         blackKing.innerHTML='<div class="blackKing figure" id="blackKing"></div>';
         field.append(blackKing)
     }
