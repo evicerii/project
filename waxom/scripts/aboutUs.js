@@ -16,4 +16,4 @@ Vue.createApp({
             ]
         }
     }
-  }).mount('#aboutUs')
+  }).mount('#AboutUs')

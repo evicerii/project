@@ -82,31 +82,16 @@
         </div>
     </header>
     <section id="main">
-        <h2>Unique and Modern Design</h2>
-        <h1>Portfolio PSD Template</h1>
-        <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</p>
+        <div class="mainTxt">
+            <h2>Unique and Modern Design</h2>
+            <h1>Portfolio PSD Template</h1>
+            <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</p>
+        </div>
         <button class="getStarted">get started</button>
         <div id="carouselMain" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators" id="indicatorListMain">
             <template v-for="n in 5">
-                <button data-bs-target="#carouselMain" :data-bs-slide-to=[n-1] :aria-label=[n]>
-                    <svg 
- xmlns="http://www.w3.org/2000/svg"
- xmlns:xlink="http://www.w3.org/1999/xlink"
- width="11px" height="11px">
-<defs>
-<filter id="Filter_0">
-    <feFlood flood-color="rgb(255, 255, 255)" flood-opacity="1" result="floodOut" />
-    <feComposite operator="atop" in="floodOut" in2="SourceGraphic" result="compOut" />
-    <feBlend mode="normal" in="compOut" in2="SourceGraphic" />
-</filter>
-
-</defs>
-<g filter="url(#Filter_0)">
-<path fill-rule="evenodd"  opacity="0.502" fill="rgb(255, 255, 255)"
- d="M5.700,0.472 C8.475,0.472 10.725,2.722 10.725,5.498 C10.725,8.272 8.475,10.523 5.700,10.523 C2.925,10.523 0.675,8.272 0.675,5.498 C0.675,2.722 2.925,0.472 5.700,0.472 Z"/>
-</g>
-                    </svg>
+                <button data-bs-target="#carouselMain" :data-bs-slide-to=[n-1] :aria-label=['Slide'+n] class="indicatorButton">
                 </button>
             </template>
         </div>
@@ -118,7 +103,7 @@
             </template>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselMain"  data-bs-slide="prev">
-            <svg 
+            <svg
  xmlns="http://www.w3.org/2000/svg"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  width="40px" height="73px">
@@ -137,7 +122,7 @@
             </svg>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselMain"  data-bs-slide="next">
-            <svg 
+            <svg
  xmlns="http://www.w3.org/2000/svg"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  width="40px" height="73px">
@@ -157,7 +142,7 @@
         </button>
         </div>
     </section>
-    <section id="aboutUs">
+    <section id="AboutUs">
         <template v-for:="(n,index) in src">
             <article>
                 <div class="imgCont">
@@ -171,6 +156,5 @@
     <script src="scripts/nav.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/aboutUs.js"></script>
-    <script src="scripts/end.js"></script>
 </body>
 </html>

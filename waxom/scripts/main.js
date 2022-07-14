@@ -11,7 +11,7 @@ Vue.createApp({
         return {
         }
     },
-    renderTracked(){
+    mounted(){
     let indicatorListMain = document.getElementById('indicatorListMain');
     let firstSlide = indicatorListMain.querySelector('button');
     firstSlide.classList.toggle("active")
