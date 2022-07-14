@@ -1,0 +1,47 @@
+#checkmateField {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.field {
+  width: 80px;
+  height: 80px;
+}
+
+.dark {
+  background-color: #2c2cd6;
+}
+
+.light {
+  background-color: mistyrose;
+}
+
+.columnField {
+  position: relative;
+}
+
+.figure {
+  position: absolute;
+  display: block;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  background: url(../img/kingBlack.svg);
+  background-size: 100%;
+}
+
+.activeToMove {
+  z-index: 2;
+  position: relative;
+  -webkit-box-shadow: 0 0 5px 5px green;
+          box-shadow: 0 0 5px 5px green;
+}
+/*# sourceMappingURL=style.css.map */

@@ -80,6 +80,11 @@ header .cart {
   cursor: pointer;
 }
 
+#main {
+  position: relative;
+  height: 100vh;
+}
+
 #main #carouselMain {
   width: 100%;
   z-index: 0;

@@ -1,0 +1,33 @@
+#checkmateField{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.field{
+    width: 80px;
+    height: 80px;
+}
+.dark{
+    background-color: rgb(44, 44, 214);
+}
+.light{
+    background-color: mistyrose;
+}
+.columnField{
+    position: relative;
+}
+.figure{
+    position: absolute;
+    display: block;
+    top:0;
+    width: 80px;
+    height:80px;
+    background: url(../img/kingBlack.svg);
+    background-size: 100%;
+}
+.activeToMove{
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 0 5px 5px green;
+}
