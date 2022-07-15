@@ -1,13 +1,12 @@
-let blackKing = document.getElementById('blackKing')
-let figurePosition = document.getElementsByClassName('rowField')
+
 let rowNumber=0;
 let columnNumber=0;
 
 //get pos figure
-while(document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('figure')[0]!=document.getElementById('blackKing')){
+while(document.getElementsByClassName('rowField')[rowNumber].querySelector('.figure')!=document.getElementById('blackKing')){
     rowNumber++;
 }
-while(document.getElementsByClassName('columnField')[columnNumber].getElementsByClassName('figure')[0]!=document.getElementById('blackKing')){
+while(document.getElementsByClassName('columnField')[columnNumber].querySelector('.figure')!=document.getElementById('blackKing')){
     columnNumber++;
 }
 columnNumber=columnNumber%8
@@ -52,6 +51,7 @@ function showKingField(){
     }
 }
 showKingField()
+// export{showKingField}
 temp1 = null;
 temp2 = null;
 tempRowNumber = null;
