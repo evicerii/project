@@ -1,7 +1,7 @@
 Vue.createApp({
     data() {
         return {
-            figure:['bKing','bQueen','bRookLeft','bRookRight','bBishopLeft','bBishopRight','bKnightLeft','bknightRight'],
+            figure:['bRookLeft','bKnightLeft','bBishopLeft','bKing','bQueen','bBishopRight','bKnightRight','bRookRight'],
             positionFigure:[]
         }
     },
@@ -56,68 +56,95 @@ Vue.createApp({
                 }
                 tempRowNumber++;
             }
+        },
+        showQueenField: function(){
+        },
+        showRookField: function(){
+            let rowNumber = this.positionFigure[0]
+            let columnNumber = this.positionFigure[1]
+            for(let i=0; i <= 7; i++){
+                let pos = document.getElementsByClassName('rowField')[i].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }  
+            for(let t=0; t <= 7; t++){
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[t]
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            } 
+        },
+        moveFigure: function(){
+            let figure
+            let dragging
+            let startArea
+            let startX = 0
+            let startY = 0
+    
+            document.getElementById('checkmateField').addEventListener("mousedown", (e) => {
+                dragging = true
+                figure = document.elementFromPoint(e.clientX, e.clientY)
+                startArea = figure.parentElement;
+                this.getPosition(figure)
+                switch(figure){
+                    case document.getElementById('bKing'):
+                    this.showKingField();
+                    break;
+                    case document.getElementById('bQueen'):
+                    this.showQueenField();
+                    break;
+                    case document.getElementById('bRookRight'):
+                    this.showRookField();
+                    break;
+                    case document.getElementById('bRookLeft'):
+                    this.showRookField();
+                    break;
+                }
+                //startX и startY положение курсора
+                startX = e.pageX - Number.parseInt(figure.style.left || 0)
+                startY = e.pageY - Number.parseInt(figure.style.top || 0)
+            })
+    
+            document.body.addEventListener("mousemove", (e) => {
+                if(!dragging){
+                    return
+                }
+                figure.style.top = `${e.pageY - startY}px`
+                figure.style.left = `${e.pageX - startX}px`
+            })
+    
+            document.body.addEventListener("mouseup", (event) => {
+                checkSubElement(event).append(figure)
+                let activeLength = document.querySelectorAll('.activeToMove').length
+                --activeLength
+                while(activeLength>=0){
+                    document.querySelectorAll('.activeToMove')[activeLength].remove()
+                    --activeLength
+                }
+                //Возвращение эл-ту базовых ха-к
+                figure.style.left = '';
+                figure.style.top = '';
+                this.positionFigure=[]
+                dragging=false
+            })
+    
+            function checkSubElement(event){
+                figure.style.display = 'none';
+                let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+                figure.style.display = 'block';
+                if (!elemBelow) return;
+                let droppableBelow = elemBelow.closest('.activeToMove');
+                if (droppableBelow){
+                    return droppableBelow.parentElement;
+                }
+                else{
+                    return startArea;
+                }
+            }
         }
-
     },
     mounted(){
         let row=document.getElementsByClassName('rowField')
-        let bKing=row[3].getElementsByClassName('columnField')[7]
-        bKing.insertAdjacentHTML("afterbegin",'<div class="blackKing figure" id="bKing"></div>')
-
-        let figure = document.querySelector(".figure")
-
-        let dragging = false
-        let startArea
-        let startX = 0
-        let startY = 0
-
-
-        figure.addEventListener("mousedown", (e) => {
-            dragging = true
-            startArea = figure.closest('.columnField').querySelector('.field');
-
-            this.getPosition(figure)
-            this.showKingField()
-            //startX и startY положение курсора
-            startX = e.pageX - Number.parseInt(figure.style.left || 0)
-            startY = e.pageY - Number.parseInt(figure.style.top || 0)
-        })
-
-        document.body.addEventListener("mousemove", (e) => {
-            if(!dragging){
-                return
-            }
-            figure.style.top = `${e.pageY - startY}px`
-            figure.style.left = `${e.pageX - startX}px`
-        })
-
-        document.body.addEventListener("mouseup", (event) => {
-            checkSubElement(event).parentElement.append(figure)
-            let activeLength = document.querySelectorAll('.activeToMove').length
-            --activeLength
-            while(activeLength>=0){
-                document.querySelectorAll('.activeToMove')[activeLength].remove()
-                --activeLength
-            }
-            //Возвращение эл-ту базовых ха-к
-            figure.style.left = '';
-            figure.style.top = '';
-            this.positionFigure=[]
-            dragging=false
-        })
-
-        function checkSubElement(event){
-            figure.style.display = 'none';
-            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-            figure.style.display = 'block';
-            if (!elemBelow) return;
-            let droppableBelow = elemBelow.closest('.activeToMove');
-            if (droppableBelow){
-                return droppableBelow;
-            }
-            else{
-                return startArea;
-            }
+        for(let i = 0; i<this.figure.length;i++){
+            row[i].getElementsByClassName('columnField')[7].insertAdjacentHTML("afterbegin",`<div class="${this.figure[i]} figure" id="${this.figure[i]}"></div>`)
         }
+        this.moveFigure()
     }
   }).mount('#checkmateField')

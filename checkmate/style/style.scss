@@ -17,29 +17,29 @@
 .columnField{
     position: relative;
     //blackFigure
-    .blackKing{
+    .bKing{
         background: url(../img/bKing.svg);
         background-size: 100%;
     }
-    .blackBishop{
+    .bBishopLeft, .bBishopRight{
         background: url(../img/bBishop.svg);
         background-size: 100%;
     }
-    .blackKnight{
+    .bKnightLeft, .bKnightRight{
         background: url(../img/bKnight.svg);
         background-size: 100%;
     }
 
-    .blackRook{
+    .bRookLeft,.bRookRight{
         background: url(../img/bRook.svg);
         background-size: 100%;
     }
 
-    .blackQueen{
+    .bQueen{
         background: url(../img/bQueen.svg);
         background-size: 100%;
     }
-    .blackPawn{
+    .bPawn{
         background: url(../img/bPawn.svg);
         background-size: 100%;
     }

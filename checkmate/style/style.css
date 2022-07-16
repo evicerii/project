@@ -28,32 +28,32 @@
   position: relative;
 }
 
-.columnField .blackKing {
+.columnField .bKing {
   background: url(../img/bKing.svg);
   background-size: 100%;
 }
 
-.columnField .blackBishop {
+.columnField .bBishopLeft, .columnField .bBishopRight {
   background: url(../img/bBishop.svg);
   background-size: 100%;
 }
 
-.columnField .blackKnight {
+.columnField .bKnightLeft, .columnField .bKnightRight {
   background: url(../img/bKnight.svg);
   background-size: 100%;
 }
 
-.columnField .blackRook {
+.columnField .bRookLeft, .columnField .bRookRight {
   background: url(../img/bRook.svg);
   background-size: 100%;
 }
 
-.columnField .blackQueen {
+.columnField .bQueen {
   background: url(../img/bQueen.svg);
   background-size: 100%;
 }
 
-.columnField .blackPawn {
+.columnField .bPawn {
   background: url(../img/bPawn.svg);
   background-size: 100%;
 }
