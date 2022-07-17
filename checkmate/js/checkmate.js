@@ -19,7 +19,6 @@ Vue.createApp({
             this.positionFigure.push(rowNumber,columnNumber)
         },
         showKingField: function(){
-            //get king rules
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let temp1 = rowNumber+1;
@@ -58,6 +57,76 @@ Vue.createApp({
             }
         },
         showQueenField: function(){
+            let rowNumber = this.positionFigure[0]
+            let columnNumber = this.positionFigure[1]
+            //++
+            for(let i=0; i <= 7; i++){
+                rowNumber++;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber++
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //+-
+            for(let i=0; i <= 7; i++){
+                rowNumber++;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber--;
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //-+
+            for(let i=0; i <= 7; i++){
+                rowNumber--;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber++
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //--
+            for(let i=0; i <= 7; i++){
+                rowNumber--;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber--
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            for(let i=0; i <= 7; i++){
+                let pos = document.getElementsByClassName('rowField')[i].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }  
+            for(let t=0; t <= 7; t++){
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[t]
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            } 
         },
         showRookField: function(){
             let rowNumber = this.positionFigure[0]
@@ -70,6 +139,70 @@ Vue.createApp({
                 let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[t]
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             } 
+        },
+        showBishopField: function(){
+            let rowNumber = this.positionFigure[0]
+            let columnNumber = this.positionFigure[1]
+            //++
+            for(let i=0; i <= 7; i++){
+                rowNumber++;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber++
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //+-
+            for(let i=0; i <= 7; i++){
+                rowNumber++;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber--;
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //-+
+            for(let i=0; i <= 7; i++){
+                rowNumber--;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber++
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
+            //--
+            for(let i=0; i <= 7; i++){
+                rowNumber--;
+                if(rowNumber>7 || rowNumber<0){
+                    break
+                }
+                columnNumber--
+                if (columnNumber>7 || columnNumber<0){
+                    break
+                }
+                let pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber];
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            rowNumber = this.positionFigure[0]
+            columnNumber = this.positionFigure[1]
         },
         moveFigure: function(){
             let figure
@@ -95,6 +228,9 @@ Vue.createApp({
                     break;
                     case document.getElementById('bRookLeft'):
                     this.showRookField();
+                    break;
+                    case document.getElementById('bBishopLeft'):
+                    this.showBishopField();
                     break;
                 }
                 //startX и startY положение курсора
