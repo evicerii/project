@@ -9,8 +9,11 @@ Vue.createApp({
         getPosition: function (figure){
             let rowNumber=0;
             let columnNumber=0;
-            while(document.getElementsByClassName('rowField')[rowNumber].querySelector('.figure')!=figure){
-                rowNumber++;
+            let arr = Array.from(document.getElementsByClassName('rowField')[rowNumber].querySelectorAll('.figure'))
+            while(!arr.includes(figure)){
+                rowNumber++
+                arr = Array.from(document.getElementsByClassName('rowField')[rowNumber].querySelectorAll('.figure'))
+                console.log(arr)
             }
             while(document.getElementsByClassName('columnField')[columnNumber].querySelector('.figure')!=figure){
                 columnNumber++;
