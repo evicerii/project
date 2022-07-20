@@ -58,6 +58,41 @@
   background-size: 100%;
 }
 
+.columnField .wPawn {
+  background: url(../img/wPawn.svg);
+  background-size: 100%;
+}
+
+.columnField .wKing {
+  background: url(../img/wKing.svg);
+  background-size: 100%;
+}
+
+.columnField .wBishopLeft, .columnField .wBishopRight {
+  background: url(../img/wBishop.svg);
+  background-size: 100%;
+}
+
+.columnField .wKnightLeft, .columnField .wKnightRight {
+  background: url(../img/wKnight.svg);
+  background-size: 100%;
+}
+
+.columnField .wRookLeft, .columnField .wRookRight {
+  background: url(../img/wRook.svg);
+  background-size: 100%;
+}
+
+.columnField .wQueen {
+  background: url(../img/wQueen.svg);
+  background-size: 100%;
+}
+
+.columnField .wPawn {
+  background: url(../img/wPawn.svg);
+  background-size: 100%;
+}
+
 .figure {
   position: absolute;
   z-index: 3;

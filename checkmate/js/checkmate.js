@@ -4,6 +4,7 @@ Vue.createApp({
             bFigure:['bRookLeft','bKnightLeft','bBishopLeft','bKing','bQueen','bBishopRight','bKnightRight','bRookRight'],
             bPawn:['1bPawn','2bPawn','3bPawn','4bPawn','5bPawn','6bPawn','7bPawn','8bPawn'],
             wPawn:['1wPawn','2wPawn','3wPawn','4wPawn','5wPawn','6wPawn','7wPawn','8wPawn'],
+            wFigure:['wRookLeft','wKnightLeft','wBishopLeft','wKing','wQueen','wBishopRight','wKnightRight','wRookRight'],
             positionFigure:[]
         }
     },
@@ -56,25 +57,19 @@ Vue.createApp({
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let temp1 = rowNumber+1;
-            if (temp1>7){
-                temp1=7
-            }
+            if (temp1>7){temp1=7}
+
             let temp2 = columnNumber+1;
-            if (temp2>7){
-                temp2=7
-            }
+            if (temp2>7){temp2=7}
             
             let tempRowNumber = rowNumber;
             let tempColumnNumber = columnNumber;
             
             --tempRowNumber;
-            if (tempRowNumber<0){
-                tempRowNumber=0
-            }
+            if (tempRowNumber<0){tempRowNumber=0}
+
             --tempColumnNumber;
-            if (tempColumnNumber<0){
-                tempColumnNumber=0
-            }
+            if (tempColumnNumber<0){tempColumnNumber=0}
 
             //show field's
             while((tempRowNumber) <= (temp1)){
@@ -214,33 +209,10 @@ Vue.createApp({
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let posArray = []
-            let temp1
-            let temp2
-
-            temp1 = rowNumber+1
-            temp2= columnNumber-2
-            tempArr(temp1, temp2)
-            temp1 = rowNumber-1
-            temp2= columnNumber-2
-            tempArr(temp1, temp2)
-            temp1 = rowNumber+1
-            temp2= columnNumber+2
-            tempArr(temp1, temp2)
-            temp1 = rowNumber-1
-            temp2= columnNumber+2
-            tempArr(temp1, temp2)
-            temp1 = rowNumber+2
-            temp2= columnNumber+1
-            tempArr(temp1, temp2)
-            temp1 = rowNumber+2
-            temp2= columnNumber-1
-            tempArr(temp1, temp2)
-            temp1 = rowNumber-2
-            temp2= columnNumber+1
-            tempArr(temp1, temp2)
-            temp1 = rowNumber-2
-            temp2= columnNumber-1
-            tempArr(temp1, temp2)
+            let tempArray = [[rowNumber+1, columnNumber-2], [rowNumber-1, columnNumber+2], [rowNumber+1, columnNumber+2], [rowNumber-1, columnNumber-2], [rowNumber+2, columnNumber-1], [rowNumber+2, columnNumber+1], [rowNumber-2, columnNumber+1], [rowNumber-2, columnNumber-1]]
+            for(let a=0;a<tempArray.length;a++){
+                tempArr(tempArray[a][0], tempArray[a][1])
+            }
             for(let i = 0; i < posArray.length; i++){
                 posArray[i].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             }
@@ -274,6 +246,26 @@ Vue.createApp({
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             }
         },
+        showWPawnField: function(){
+            let rowNumber = this.positionFigure[0]
+            let columnNumber = this.positionFigure[1]
+            let pos
+            if(columnNumber===7){
+                return
+            }
+            if(columnNumber===1){
+                columnNumber++
+                pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+                columnNumber++
+                pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }else{
+                columnNumber++
+                pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+        },
         moveFigure: function(){
             let figure
             let dragging
@@ -287,54 +279,39 @@ Vue.createApp({
                 startArea = figure.parentElement;
                 this.getPosition(figure)
                 switch(figure){
-                    case document.getElementById('bKing'):
-                    this.showKingField();
-                    break;
-                    case document.getElementById('bQueen'):
-                    this.showQueenField();
-                    break;
-                    case document.getElementById('bRookRight'):
-                    this.showRookField(figure);
-                    break;
-                    case document.getElementById('bRookLeft'):
-                    this.showRookField();
-                    break;
-                    case document.getElementById('bBishopLeft'):
-                    this.showBishopField();
-                    break;
-                    case document.getElementById('bBishopRight'):
-                    this.showBishopField();
-                    break;
-                    case document.getElementById('bKnightLeft'):
-                    this.showKnightField();
-                    break;
-                    case document.getElementById('bKnightRight'):
-                    this.showKnightField();
-                    break;
-                    case document.getElementById('1bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('2bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('3bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('4bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('5bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('6bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('7bPawn'):
-                    this.showBPawnField();
-                    break;
-                    case document.getElementById('8bPawn'):
-                    this.showBPawnField();
-                    break;
+                    case document.getElementById('bKing'):this.showKingField();break;
+                    case document.getElementById('bQueen'):this.showQueenField();break;
+                    case document.getElementById('wKing'):this.showKingField();break;
+                    case document.getElementById('wQueen'):this.showQueenField();break;
+                    case document.getElementById('bRookRight'):this.showRookField(figure);break;
+                    case document.getElementById('bRookLeft'):this.showRookField();break;
+                    case document.getElementById('wRookRight'):this.showRookField(figure);break;
+                    case document.getElementById('wRookLeft'):this.showRookField();break;
+                    case document.getElementById('bBishopLeft'):this.showBishopField();break;
+                    case document.getElementById('bBishopRight'):this.showBishopField();break;
+                    case document.getElementById('wBishopLeft'):this.showBishopField();break;
+                    case document.getElementById('wBishopRight'):this.showBishopField();break;
+                    case document.getElementById('bKnightLeft'):this.showKnightField();break;
+                    case document.getElementById('bKnightRight'):this.showKnightField();break;
+                    case document.getElementById('wKnightLeft'):this.showKnightField();break;
+                    case document.getElementById('wKnightRight'):this.showKnightField();break;
+                    case document.getElementById('1bPawn'):this.showBPawnField();break;
+                    case document.getElementById('2bPawn'):this.showBPawnField();break;
+                    case document.getElementById('3bPawn'):this.showBPawnField();break;
+                    case document.getElementById('4bPawn'):this.showBPawnField();break;
+                    case document.getElementById('5bPawn'):this.showBPawnField();break;
+                    case document.getElementById('6bPawn'):this.showBPawnField();break;
+                    case document.getElementById('7bPawn'):this.showBPawnField();break;
+                    case document.getElementById('8bPawn'):this.showBPawnField();break;
+                    case document.getElementById('wKnightRight'):this.showKnightField();break;
+                    case document.getElementById('1wPawn'):this.showWPawnField();break;
+                    case document.getElementById('2wPawn'):this.showWPawnField();break;
+                    case document.getElementById('3wPawn'):this.showWPawnField();break;
+                    case document.getElementById('4wPawn'):this.showWPawnField();break;
+                    case document.getElementById('5wPawn'):this.showWPawnField();break;
+                    case document.getElementById('6wPawn'):this.showWPawnField();break;
+                    case document.getElementById('7wPawn'):this.showWPawnField();break;
+                    case document.getElementById('8wPawn'):this.showWPawnField();break;
                 }
                 //startX,startY get pointer
                 startX = e.pageX - Number.parseInt(figure.style.left || 0)
@@ -380,6 +357,16 @@ Vue.createApp({
     },
     mounted(){
         let row=document.getElementsByClassName('rowField')
+        //pos Figure 1 row
+        for(let i = 0; i<this.wFigure.length;i++){
+            row[i].getElementsByClassName('columnField')[0].insertAdjacentHTML("afterbegin",`<div class="${this.wFigure[i]} figure" id="${this.wFigure[i]}"></div>`)
+        }
+
+        //pos Figure 2 row
+        for(let i = 0; i<this.bPawn.length;i++){
+            row[i].getElementsByClassName('columnField')[1].insertAdjacentHTML("afterbegin",`<div class="wPawn figure" id="${this.wPawn[i]}"></div>`)
+        }
+
         //pos Figure 7 row
         for(let i = 0; i<this.bPawn.length;i++){
             row[i].getElementsByClassName('columnField')[6].insertAdjacentHTML("afterbegin",`<div class="bPawn figure" id="${this.bPawn[i]}"></div>`)
