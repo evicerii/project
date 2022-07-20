@@ -5,7 +5,8 @@ Vue.createApp({
             bPawn:['1bPawn','2bPawn','3bPawn','4bPawn','5bPawn','6bPawn','7bPawn','8bPawn'],
             wPawn:['1wPawn','2wPawn','3wPawn','4wPawn','5wPawn','6wPawn','7wPawn','8wPawn'],
             wFigure:['wRookLeft','wKnightLeft','wBishopLeft','wKing','wQueen','wBishopRight','wKnightRight','wRookRight'],
-            positionFigure:[]
+            positionFigure:[],
+            chessMove:'white'
         }
     },
     methods:{
@@ -277,41 +278,49 @@ Vue.createApp({
                 dragging = true
                 figure = document.elementFromPoint(e.clientX, e.clientY)
                 startArea = figure.parentElement;
+                console.log(figure, startArea)
                 this.getPosition(figure)
-                switch(figure){
-                    case document.getElementById('bKing'):this.showKingField();break;
-                    case document.getElementById('bQueen'):this.showQueenField();break;
-                    case document.getElementById('wKing'):this.showKingField();break;
-                    case document.getElementById('wQueen'):this.showQueenField();break;
-                    case document.getElementById('bRookRight'):this.showRookField(figure);break;
-                    case document.getElementById('bRookLeft'):this.showRookField();break;
-                    case document.getElementById('wRookRight'):this.showRookField(figure);break;
-                    case document.getElementById('wRookLeft'):this.showRookField();break;
-                    case document.getElementById('bBishopLeft'):this.showBishopField();break;
-                    case document.getElementById('bBishopRight'):this.showBishopField();break;
-                    case document.getElementById('wBishopLeft'):this.showBishopField();break;
-                    case document.getElementById('wBishopRight'):this.showBishopField();break;
-                    case document.getElementById('bKnightLeft'):this.showKnightField();break;
-                    case document.getElementById('bKnightRight'):this.showKnightField();break;
-                    case document.getElementById('wKnightLeft'):this.showKnightField();break;
-                    case document.getElementById('wKnightRight'):this.showKnightField();break;
-                    case document.getElementById('1bPawn'):this.showBPawnField();break;
-                    case document.getElementById('2bPawn'):this.showBPawnField();break;
-                    case document.getElementById('3bPawn'):this.showBPawnField();break;
-                    case document.getElementById('4bPawn'):this.showBPawnField();break;
-                    case document.getElementById('5bPawn'):this.showBPawnField();break;
-                    case document.getElementById('6bPawn'):this.showBPawnField();break;
-                    case document.getElementById('7bPawn'):this.showBPawnField();break;
-                    case document.getElementById('8bPawn'):this.showBPawnField();break;
-                    case document.getElementById('wKnightRight'):this.showKnightField();break;
-                    case document.getElementById('1wPawn'):this.showWPawnField();break;
-                    case document.getElementById('2wPawn'):this.showWPawnField();break;
-                    case document.getElementById('3wPawn'):this.showWPawnField();break;
-                    case document.getElementById('4wPawn'):this.showWPawnField();break;
-                    case document.getElementById('5wPawn'):this.showWPawnField();break;
-                    case document.getElementById('6wPawn'):this.showWPawnField();break;
-                    case document.getElementById('7wPawn'):this.showWPawnField();break;
-                    case document.getElementById('8wPawn'):this.showWPawnField();break;
+                //sequence of moves / (check if figure is moved => mouseup)
+                if(this.chessMove=='white'){
+                    switch(figure){
+                        case document.getElementById('wKing'):this.showKingField();break;
+                        case document.getElementById('wQueen'):this.showQueenField();break;
+                        case document.getElementById('wRookRight'):this.showRookField(figure);break;
+                        case document.getElementById('wRookLeft'):this.showRookField();break;
+                        case document.getElementById('wBishopLeft'):this.showBishopField();break;
+                        case document.getElementById('wBishopRight'):this.showBishopField();break;
+                        case document.getElementById('wKnightLeft'):this.showKnightField();break;
+                        case document.getElementById('wKnightRight'):this.showKnightField();break;
+                        case document.getElementById('1wPawn'):this.showWPawnField();break;
+                        case document.getElementById('2wPawn'):this.showWPawnField();break;
+                        case document.getElementById('3wPawn'):this.showWPawnField();break;
+                        case document.getElementById('4wPawn'):this.showWPawnField();break;
+                        case document.getElementById('5wPawn'):this.showWPawnField();break;
+                        case document.getElementById('6wPawn'):this.showWPawnField();break;
+                        case document.getElementById('7wPawn'):this.showWPawnField();break;
+                        case document.getElementById('8wPawn'):this.showWPawnField();break;
+                    }
+                    this.chessMove = 'black'
+                }else{ 
+                    switch(figure){
+                        case document.getElementById('bKing'):this.showKingField();break;
+                        case document.getElementById('bQueen'):this.showQueenField();break;
+                        case document.getElementById('bRookRight'):this.showRookField(figure);break;
+                        case document.getElementById('bRookLeft'):this.showRookField();break;
+                        case document.getElementById('bBishopLeft'):this.showBishopField();break;
+                        case document.getElementById('bBishopRight'):this.showBishopField();break;
+                        case document.getElementById('bKnightLeft'):this.showKnightField();break;
+                        case document.getElementById('bKnightRight'):this.showKnightField();break;
+                        case document.getElementById('1bPawn'):this.showBPawnField();break;
+                        case document.getElementById('2bPawn'):this.showBPawnField();break;
+                        case document.getElementById('3bPawn'):this.showBPawnField();break;
+                        case document.getElementById('4bPawn'):this.showBPawnField();break;
+                        case document.getElementById('5bPawn'):this.showBPawnField();break;
+                        case document.getElementById('6bPawn'):this.showBPawnField();break;
+                        case document.getElementById('7bPawn'):this.showBPawnField();break;
+                        case document.getElementById('8bPawn'):this.showBPawnField();break;
+                    }
+                    this.chessMove = 'white'
                 }
                 //startX,startY get pointer
                 startX = e.pageX - Number.parseInt(figure.style.left || 0)
@@ -333,6 +342,14 @@ Vue.createApp({
                 while(activeLength>=0){
                     document.querySelectorAll('.activeToMove')[activeLength].remove()
                     --activeLength
+                }
+
+                //check if figure is moved
+                if(figure.parentElement == startArea){
+                    switch(this.chessMove){
+                        case 'white': this.chessMove = 'black'; break;
+                        case 'black': this.chessMove = 'white'; break;
+                    }
                 }
                 figure.style.left = '';
                 figure.style.top = '';
@@ -359,21 +376,21 @@ Vue.createApp({
         let row=document.getElementsByClassName('rowField')
         //pos Figure 1 row
         for(let i = 0; i<this.wFigure.length;i++){
-            row[i].getElementsByClassName('columnField')[0].insertAdjacentHTML("afterbegin",`<div class="${this.wFigure[i]} figure" id="${this.wFigure[i]}"></div>`)
+            row[i].getElementsByClassName('columnField')[0].insertAdjacentHTML("afterbegin",`<div class="${this.wFigure[i]} figure white" id="${this.wFigure[i]}"></div>`)
         }
 
         //pos Figure 2 row
         for(let i = 0; i<this.bPawn.length;i++){
-            row[i].getElementsByClassName('columnField')[1].insertAdjacentHTML("afterbegin",`<div class="wPawn figure" id="${this.wPawn[i]}"></div>`)
+            row[i].getElementsByClassName('columnField')[1].insertAdjacentHTML("afterbegin",`<div class="wPawn figure white" id="${this.wPawn[i]}"></div>`)
         }
 
         //pos Figure 7 row
         for(let i = 0; i<this.bPawn.length;i++){
-            row[i].getElementsByClassName('columnField')[6].insertAdjacentHTML("afterbegin",`<div class="bPawn figure" id="${this.bPawn[i]}"></div>`)
+            row[i].getElementsByClassName('columnField')[6].insertAdjacentHTML("afterbegin",`<div class="bPawn figure black" id="${this.bPawn[i]}"></div>`)
         }
         //pos Figure 8 row
         for(let i = 0; i<this.bFigure.length;i++){
-            row[i].getElementsByClassName('columnField')[7].insertAdjacentHTML("afterbegin",`<div class="${this.bFigure[i]} figure" id="${this.bFigure[i]}"></div>`)
+            row[i].getElementsByClassName('columnField')[7].insertAdjacentHTML("afterbegin",`<div class="${this.bFigure[i]} figure black" id="${this.bFigure[i]}"></div>`)
         }
         this.moveFigure()
     }
