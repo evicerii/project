@@ -241,7 +241,7 @@ Vue.createApp({
             if((document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField].querySelector('.figure'))){
                 this.deleteActiveToMove()
             }
-            if(document.querySelectorAll('.activeToMove').length>0){
+            if(document.querySelectorAll('.activeToMove').length==0){
                 document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField+1].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             }
             let temp1 = rowNumber
