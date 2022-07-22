@@ -24,6 +24,14 @@ Vue.createApp({
             columnNumber=columnNumber%8
             this.positionFigure.push(rowNumber,columnNumber)
         },
+        deleteActiveToMove: function(){
+            let activeLength = document.querySelectorAll('.activeToMove').length
+            --activeLength
+            while(activeLength>=0){
+                document.querySelectorAll('.activeToMove')[activeLength].remove()
+                --activeLength
+            }
+        },
         //get closest figure to active elem
         getClosestPosLeft: function(rowNumber, columnNumber, newStartPos){
             for(let i=0; i < rowNumber; i++){
@@ -227,14 +235,40 @@ Vue.createApp({
                 }
             }
         },
+        pawnAttackField: function(rowNumber,columnNumber){
+            let pos
+            let attackField = columnNumber
+            if((document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField].querySelector('.figure'))){
+                this.deleteActiveToMove()
+            }
+            if(document.querySelectorAll('.activeToMove').length>0){
+                document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField+1].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            let temp1 = rowNumber
+            temp1++
+            if(temp1==8){
+                temp1=7
+            }
+            pos = document.getElementsByClassName('rowField')[temp1].getElementsByClassName('columnField')[attackField]
+            if(pos.querySelector('.figure')){
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+            temp1 = rowNumber - 1
+            if(temp1<0){
+                temp1=0
+            }
+            pos = document.getElementsByClassName('rowField')[temp1].getElementsByClassName('columnField')[attackField]
+            if(pos.querySelector('.figure')){
+                pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
+            }
+        },
         showBPawnField: function(){
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let pos
             if(columnNumber===0){
                 return
-            }
-            if(columnNumber===6){
+            }else if(columnNumber===6){
                 columnNumber--
                 pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
@@ -246,6 +280,8 @@ Vue.createApp({
                 pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             }
+            //attachField
+            this.pawnAttackField(rowNumber,columnNumber)
         },
         showWPawnField: function(){
             let rowNumber = this.positionFigure[0]
@@ -253,8 +289,7 @@ Vue.createApp({
             let pos
             if(columnNumber===7){
                 return
-            }
-            if(columnNumber===1){
+            }else if(columnNumber===1){
                 columnNumber++
                 pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
@@ -266,6 +301,8 @@ Vue.createApp({
                 pos = document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[columnNumber]
                 pos.insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>');
             }
+            //attachField
+            this.pawnAttackField(rowNumber, columnNumber)
         },
         moveFigure: function(){
             let figure
@@ -278,7 +315,6 @@ Vue.createApp({
                 dragging = true
                 figure = document.elementFromPoint(e.clientX, e.clientY)
                 startArea = figure.parentElement;
-                console.log(figure, startArea)
                 this.getPosition(figure)
                 //sequence of moves / (check if figure is moved => mouseup)
                 if(this.chessMove=='white'){
@@ -336,14 +372,13 @@ Vue.createApp({
             })
     
             document.body.addEventListener("mouseup", (event) => {
-                checkSubElement(event).append(figure)
-                let activeLength = document.querySelectorAll('.activeToMove').length
-                --activeLength
-                while(activeLength>=0){
-                    document.querySelectorAll('.activeToMove')[activeLength].remove()
-                    --activeLength
+                let pos = checkSubElement(event)
+                if(pos.querySelector('.figure')){
+                    pos.querySelector('.figure').remove()
                 }
 
+                checkSubElement(event).append(figure)
+                this.deleteActiveToMove()
                 //check if figure is moved
                 if(figure.parentElement == startArea){
                     switch(this.chessMove){
@@ -356,13 +391,13 @@ Vue.createApp({
                 this.positionFigure=[]
                 dragging=false
             })
-    
+            
             function checkSubElement(event){
                 figure.style.display = 'none';
                 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
                 figure.style.display = 'block';
                 if (!elemBelow) return;
-                let droppableBelow = elemBelow.closest('.activeToMove');
+                let droppableBelow = elemBelow.closest('.columnField').querySelector('.activeToMove');
                 if (droppableBelow){
                     return droppableBelow.parentElement;
                 }
