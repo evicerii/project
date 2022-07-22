@@ -317,6 +317,7 @@ Vue.createApp({
                 startArea = figure.parentElement;
                 this.getPosition(figure)
                 //sequence of moves / (check if figure is moved => mouseup)
+                console.log(this.chessMove)
                 if(this.chessMove=='white'){
                     switch(figure){
                         case document.getElementById('wKing'):this.showKingField();break;
@@ -336,7 +337,6 @@ Vue.createApp({
                         case document.getElementById('7wPawn'):this.showWPawnField();break;
                         case document.getElementById('8wPawn'):this.showWPawnField();break;
                     }
-                    this.chessMove = 'black'
                 }else{ 
                     switch(figure){
                         case document.getElementById('bKing'):this.showKingField();break;
@@ -356,7 +356,6 @@ Vue.createApp({
                         case document.getElementById('7bPawn'):this.showBPawnField();break;
                         case document.getElementById('8bPawn'):this.showBPawnField();break;
                     }
-                    this.chessMove = 'white'
                 }
                 //startX,startY get pointer
                 startX = e.pageX - Number.parseInt(figure.style.left || 0)
@@ -380,7 +379,7 @@ Vue.createApp({
                 checkSubElement(event).append(figure)
                 this.deleteActiveToMove()
                 //check if figure is moved
-                if(figure.parentElement == startArea){
+                if(figure.parentElement != startArea){
                     switch(this.chessMove){
                         case 'white': this.chessMove = 'black'; break;
                         case 'black': this.chessMove = 'white'; break;
