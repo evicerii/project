@@ -6,7 +6,9 @@ Vue.createApp({
             wPawn:['1wPawn','2wPawn','3wPawn','4wPawn','5wPawn','6wPawn','7wPawn','8wPawn'],
             wFigure:['wRookLeft','wKnightLeft','wBishopLeft','wKing','wQueen','wBishopRight','wKnightRight','wRookRight'],
             positionFigure:[],
-            chessMove:'white'
+            chessMove:'white',
+            castlingFigure:['wKing', 'wRookLeft', 'wRookRight', 'bKing', 'bRookLeft', 'bRookRight'],
+            castlingMove:[true, true, true, true, true, true]
         }
     },
     methods:{
@@ -62,7 +64,27 @@ Vue.createApp({
             return newStartPos
         },
         //show pos to move
-        showKingField: function(){
+        castling: function(rowNumber, columnNumber, figure){
+            let checkFigureMove = this.castlingMove
+            //check rules white
+            let arr = Array.from(document.getElementsByClassName('white'))
+            if((checkFigureMove[0] == checkFigureMove[1]) && (arr.includes(figure))){
+                document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')  
+            }
+            if((checkFigureMove[0] == checkFigureMove[2]) && (arr.includes(figure))){
+                document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+            }
+
+            //check rules black
+            arr = Array.from(document.getElementsByClassName('black'))
+            if((checkFigureMove[3] == checkFigureMove[4]) && (arr.includes(figure))){
+                document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+            }
+            if((checkFigureMove[3] == checkFigureMove[5]) && (arr.includes(figure))){
+                document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+            }
+        },
+        showKingField: function(figure){
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let temp1 = rowNumber+1;
@@ -93,11 +115,9 @@ Vue.createApp({
                 }
                 tempRowNumber++;
             }
-            
+            this.castling(rowNumber, columnNumber, figure)
         },
         showQueenField: function(){
-            let rowNumber = this.positionFigure[0]
-            let columnNumber = this.positionFigure[1]
             this.showBishopField()
             this.showRookField()
         },
@@ -238,7 +258,7 @@ Vue.createApp({
         pawnAttackField: function(rowNumber,columnNumber){
             let pos
             let attackField = columnNumber
-            if((document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField].querySelector('.figure'))){
+            if(document.getElementsByClassName('rowField')[rowNumber].getElementsByClassName('columnField')[attackField].querySelector('.figure')){
                 this.deleteActiveToMove()
             }
             if(document.querySelectorAll('.activeToMove').length==0){
@@ -320,10 +340,10 @@ Vue.createApp({
                 console.log(this.chessMove)
                 if(this.chessMove=='white'){
                     switch(figure){
-                        case document.getElementById('wKing'):this.showKingField();break;
+                        case document.getElementById('wKing'):this.showKingField(figure); break;
                         case document.getElementById('wQueen'):this.showQueenField();break;
-                        case document.getElementById('wRookRight'):this.showRookField(figure);break;
-                        case document.getElementById('wRookLeft'):this.showRookField();break;
+                        case document.getElementById('wRookRight'):this.showRookField(); break;
+                        case document.getElementById('wRookLeft'):this.showRookField(); break;
                         case document.getElementById('wBishopLeft'):this.showBishopField();break;
                         case document.getElementById('wBishopRight'):this.showBishopField();break;
                         case document.getElementById('wKnightLeft'):this.showKnightField();break;
@@ -339,10 +359,10 @@ Vue.createApp({
                     }
                 }else{ 
                     switch(figure){
-                        case document.getElementById('bKing'):this.showKingField();break;
+                        case document.getElementById('bKing'):this.showKingField(figure); break;
                         case document.getElementById('bQueen'):this.showQueenField();break;
-                        case document.getElementById('bRookRight'):this.showRookField(figure);break;
-                        case document.getElementById('bRookLeft'):this.showRookField();break;
+                        case document.getElementById('bRookRight'):this.showRookField(); break;
+                        case document.getElementById('bRookLeft'):this.showRookField(); break;
                         case document.getElementById('bBishopLeft'):this.showBishopField();break;
                         case document.getElementById('bBishopRight'):this.showBishopField();break;
                         case document.getElementById('bKnightLeft'):this.showKnightField();break;
@@ -385,12 +405,32 @@ Vue.createApp({
                         case 'black': this.chessMove = 'white'; break;
                     }
                 }
+
+                //castling move
+                for(let i =0; i < 6; i++){
+                    if((figure.parentElement != startArea) && (figure == document.getElementById(this.castlingFigure[i]))){
+                        this.castlingMove[i] = false
+                    }
+                }
+                
+                if((figure == document.getElementById('wKing')) || (figure == document.getElementById('bKing'))){
+                    let startOfCastling = this.positionFigure[0]
+                    console.log(startOfCastling)
+                    this.positionFigure=[]
+                    this.getPosition(figure)
+                    let endOfCastling = this.positionFigure[0]
+                    console.log(endOfCastling)
+                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling !== 0)){
+                        console.log('castling')
+                    }
+                }
+
+
+                this.positionFigure=[]
                 figure.style.left = '';
                 figure.style.top = '';
-                this.positionFigure=[]
                 dragging=false
             })
-            
             function checkSubElement(event){
                 figure.style.display = 'none';
                 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
