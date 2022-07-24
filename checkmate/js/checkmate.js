@@ -1,3 +1,7 @@
+//sequence of moves
+//
+//
+
 Vue.createApp({
     data() {
         return {
@@ -70,18 +74,22 @@ Vue.createApp({
             let arr = Array.from(document.getElementsByClassName('white'))
             if((checkFigureMove[0] == checkFigureMove[1]) && (arr.includes(figure))){
                 document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')  
+                document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')  
             }
             if((checkFigureMove[0] == checkFigureMove[2]) && (arr.includes(figure))){
                 document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+                document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
             }
 
             //check rules black
             arr = Array.from(document.getElementsByClassName('black'))
             if((checkFigureMove[3] == checkFigureMove[4]) && (arr.includes(figure))){
                 document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+                document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
             }
             if((checkFigureMove[3] == checkFigureMove[5]) && (arr.includes(figure))){
                 document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
+                document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
             }
         },
         showKingField: function(figure){
@@ -338,7 +346,7 @@ Vue.createApp({
                 this.getPosition(figure)
                 //sequence of moves / (check if figure is moved => mouseup)
                 console.log(this.chessMove)
-                if(this.chessMove=='white'){
+                if(this.chessMove){
                     switch(figure){
                         case document.getElementById('wKing'):this.showKingField(figure); break;
                         case document.getElementById('wQueen'):this.showQueenField();break;
@@ -380,6 +388,23 @@ Vue.createApp({
                 //startX,startY get pointer
                 startX = e.pageX - Number.parseInt(figure.style.left || 0)
                 startY = e.pageY - Number.parseInt(figure.style.top || 0)
+
+                //
+                // let deleteActive = document.querySelectorAll('.activeToMove')
+                // let colorFigure
+                // if(figure.classList.contains('white')){
+                //     colorFigure = 'white'
+                // } else {
+                //     colorFigure = 'black'
+                // }
+                // for(let i = 0; i < deleteActive.length; i++){
+                //     let figure = deleteActive[i].parentElement.querySelector('.figure')
+                //     if(figure){
+                //         if(figure.classList.contains(colorFigure)){
+                //             deleteActive[i].remove()
+                //         }
+                //     }
+                // }
             })
     
             document.body.addEventListener("mousemove", (e) => {
@@ -415,13 +440,26 @@ Vue.createApp({
                 
                 if((figure == document.getElementById('wKing')) || (figure == document.getElementById('bKing'))){
                     let startOfCastling = this.positionFigure[0]
-                    console.log(startOfCastling)
+
+                    //get new actual position
                     this.positionFigure=[]
                     this.getPosition(figure)
                     let endOfCastling = this.positionFigure[0]
-                    console.log(endOfCastling)
-                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling !== 0)){
-                        console.log('castling')
+                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling > 0) && (figure == document.getElementById('wKing'))){
+                        figureRook = document.getElementById('wRookLeft')
+                        document.getElementsByClassName('rowField')[2].getElementsByClassName('columnField')[0].append(figureRook)
+                    }
+                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling < 0) && (figure == document.getElementById('wKing'))){
+                        figureRook = document.getElementById('wRookRight')
+                        document.getElementsByClassName('rowField')[4].getElementsByClassName('columnField')[0].append(figureRook)
+                    }
+                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling > 0) && (figure == document.getElementById('bKing'))){
+                        figureRook = document.getElementById('bRookLeft')
+                        document.getElementsByClassName('rowField')[2].getElementsByClassName('columnField')[7].append(figureRook)
+                    }
+                    if(((startOfCastling - endOfCastling)%2==0) && (startOfCastling - endOfCastling > 0) && (figure == document.getElementById('bKing'))){
+                        figureRook = document.getElementById('bRookRight')
+                        document.getElementsByClassName('rowField')[4].getElementsByClassName('columnField')[7].append(figureRook)
                     }
                 }
 
@@ -437,6 +475,13 @@ Vue.createApp({
                 figure.style.display = 'block';
                 if (!elemBelow) return;
                 let droppableBelow = elemBelow.closest('.columnField').querySelector('.activeToMove');
+                //off frendly fire
+                if(figure.classList.contains('white') && elemBelow.parentElement.querySelector('.white')){
+                    return startArea;
+                }
+                if(figure.classList.contains('black') && elemBelow.parentElement.querySelector('.black')){
+                    return startArea;
+                }
                 if (droppableBelow){
                     return droppableBelow.parentElement;
                 }
