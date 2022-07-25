@@ -17,6 +17,7 @@ Vue.createApp({
     },
     methods:{
         getPosition: function (figure){
+            this.positionFigure = []
             let rowNumber=0;
             let columnNumber=0;
             let arr = Array.from(document.getElementsByClassName('rowField')[rowNumber].querySelectorAll('.figure'))
@@ -93,6 +94,7 @@ Vue.createApp({
             }
         },
         showKingField: function(figure){
+            console.log(figure)
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let temp1 = rowNumber+1;
@@ -123,7 +125,6 @@ Vue.createApp({
                 }
                 tempRowNumber++;
             }
-            this.castling(rowNumber, columnNumber, figure)
         },
         showQueenField: function(){
             this.showBishopField()
@@ -332,6 +333,64 @@ Vue.createApp({
             //attachField
             this.pawnAttackField(rowNumber, columnNumber)
         },
+        checkAttackField:function(){
+            let castlingField
+            let temp = 0
+            let figure
+
+            {
+            figure = document.getElementById('wKing')
+            this.getPosition(figure)
+            this.showKingField(figure)
+
+            figure = document.getElementById('wQueen')
+            this.getPosition(figure)
+            this.showQueenField()
+
+            figure = document.getElementById('wBishopLeft')
+            this.getPosition(figure)
+            this.showBishopField()
+
+            figure = document.getElementById('wBishopRight')
+            this.getPosition(figure)
+            this.showBishopField()
+
+            figure = document.getElementById('wKnightLeft')
+            this.getPosition(figure)
+            this.showKnightField()
+
+            figure = document.getElementById('wKnightRight')
+            this.getPosition(figure)
+            this.showKnightField()
+
+            figure = document.getElementById('wKnightRight')
+            this.getPosition(figure)
+            this.showKnightField()
+
+            figure = document.getElementById('wRookLeft')
+            this.getPosition(figure)
+            this.showRookField()
+
+            figure = document.getElementById('wRookRight')
+            this.getPosition(figure)
+            this.showRookField()
+            }
+
+            figure = document.getElementById('bKing')
+            this.getPosition(figure)
+            for(let i = 1; i< 4; i++){
+                castlingField = document.getElementsByClassName('rowField')[i].getElementsByClassName('columnField')[7]
+                if(castlingField.querySelector('.activeToMove')){
+                    break;
+                } else {
+                   temp++
+                }
+            }
+            if(temp == 3){
+                this.castling(this.positionFigure[0], this.positionFigure[1], figure)
+            }
+            
+        },
         moveFigure: function(){
             let figure
             let dragging
@@ -345,8 +404,7 @@ Vue.createApp({
                 startArea = figure.parentElement;
                 this.getPosition(figure)
                 //sequence of moves / (check if figure is moved => mouseup)
-                console.log(this.chessMove)
-                if(this.chessMove){
+                if(this.chessMove=='white'){
                     switch(figure){
                         case document.getElementById('wKing'):this.showKingField(figure); break;
                         case document.getElementById('wQueen'):this.showQueenField();break;
@@ -364,6 +422,7 @@ Vue.createApp({
                         case document.getElementById('6wPawn'):this.showWPawnField();break;
                         case document.getElementById('7wPawn'):this.showWPawnField();break;
                         case document.getElementById('8wPawn'):this.showWPawnField();break;
+                        this.chessMove='black'
                     }
                 }else{ 
                     switch(figure){
@@ -441,7 +500,7 @@ Vue.createApp({
                 if((figure == document.getElementById('wKing')) || (figure == document.getElementById('bKing'))){
                     let startOfCastling = this.positionFigure[0]
 
-                    //get new actual position
+                    //take castling
                     this.positionFigure=[]
                     this.getPosition(figure)
                     let endOfCastling = this.positionFigure[0]
@@ -463,6 +522,7 @@ Vue.createApp({
                     }
                 }
 
+                this.checkAttackField()
 
                 this.positionFigure=[]
                 figure.style.left = '';
@@ -499,9 +559,9 @@ Vue.createApp({
         }
 
         //pos Figure 2 row
-        for(let i = 0; i<this.bPawn.length;i++){
-            row[i].getElementsByClassName('columnField')[1].insertAdjacentHTML("afterbegin",`<div class="wPawn figure white" id="${this.wPawn[i]}"></div>`)
-        }
+        // for(let i = 0; i<this.bPawn.length;i++){
+        //     row[i].getElementsByClassName('columnField')[1].insertAdjacentHTML("afterbegin",`<div class="wPawn figure white" id="${this.wPawn[i]}"></div>`)
+        // }
 
         //pos Figure 7 row
         for(let i = 0; i<this.bPawn.length;i++){
