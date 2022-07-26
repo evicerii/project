@@ -39,6 +39,14 @@ Vue.createApp({
                 --activeLength
             }
         },
+        deleteAllMove: function(){
+            let activeLength = document.querySelectorAll('.allMove').length
+            --activeLength
+            while(activeLength>=0){
+                document.querySelectorAll('.allMove')[activeLength].remove()
+                --activeLength
+            }
+        },
         //get closest figure to active elem
         getClosestPosLeft: function(rowNumber, columnNumber, newStartPos){
             for(let i=0; i < rowNumber; i++){
@@ -94,7 +102,6 @@ Vue.createApp({
             }
         },
         showKingField: function(figure){
-            console.log(figure)
             let rowNumber = this.positionFigure[0]
             let columnNumber = this.positionFigure[1]
             let temp1 = rowNumber+1;
@@ -340,47 +347,64 @@ Vue.createApp({
 
             {
             figure = document.getElementById('wKing')
-            this.getPosition(figure)
-            this.showKingField(figure)
-
+            if(figure){
+                this.getPosition(figure)
+                this.showKingField(figure)
+            }
             figure = document.getElementById('wQueen')
-            this.getPosition(figure)
-            this.showQueenField()
-
-            figure = document.getElementById('wBishopLeft')
-            this.getPosition(figure)
-            this.showBishopField()
-
-            figure = document.getElementById('wBishopRight')
-            this.getPosition(figure)
-            this.showBishopField()
-
-            figure = document.getElementById('wKnightLeft')
-            this.getPosition(figure)
-            this.showKnightField()
-
-            figure = document.getElementById('wKnightRight')
-            this.getPosition(figure)
-            this.showKnightField()
-
-            figure = document.getElementById('wKnightRight')
-            this.getPosition(figure)
-            this.showKnightField()
-
-            figure = document.getElementById('wRookLeft')
-            this.getPosition(figure)
-            this.showRookField()
-
-            figure = document.getElementById('wRookRight')
-            this.getPosition(figure)
-            this.showRookField()
+            if(figure){
+                this.getPosition(figure)
+                this.showQueenField()
             }
 
+            figure = document.getElementById('wBishopLeft')
+            if(figure){
+                this.getPosition(figure)
+                this.showBishopField()
+            }
+
+            figure = document.getElementById('wBishopRight')
+            if(figure){
+                this.getPosition(figure)
+                this.showBishopField()
+            }
+
+            figure = document.getElementById('wKnightLeft')
+            if(figure){
+                this.getPosition(figure)
+                this.showKnightField()
+            }
+
+            figure = document.getElementById('wKnightRight')
+            if(figure){
+                this.getPosition(figure)
+                this.showKnightField()
+            }
+
+            figure = document.getElementById('wKnightRight')
+            if(figure){
+                this.getPosition(figure)
+                this.showKnightField()
+            }
+
+            figure = document.getElementById('wRookLeft')
+            if(figure){
+                this.getPosition(figure)
+                this.showRookField()
+            }
+
+            figure = document.getElementById('wRookRight')
+            if(figure){
+                this.getPosition(figure)
+                this.showRookField()
+            }
+            }
+            this.checkAllMove()
             figure = document.getElementById('bKing')
             this.getPosition(figure)
             for(let i = 1; i< 4; i++){
                 castlingField = document.getElementsByClassName('rowField')[i].getElementsByClassName('columnField')[7]
-                if(castlingField.querySelector('.activeToMove')){
+                if(castlingField.querySelector('.allMove')){
                     break;
                 } else {
                    temp++
@@ -389,7 +413,20 @@ Vue.createApp({
             if(temp == 3){
                 this.castling(this.positionFigure[0], this.positionFigure[1], figure)
             }
+
             
+        },
+        checkAllMove: function(){
+            for(let i = 0; document.querySelector('.activeToMove');i++){
+                document.querySelector('.activeToMove').classList.add('allMove')
+                document.querySelectorAll('.allMove')[i].classList.remove('activeToMove')
+                let temp = document.querySelectorAll('.allMove')[i].parentElement
+                if(temp.querySelector('.activeToMove')){
+                    while(temp.querySelector('.activeToMove')){
+                        temp.removeChild(document.querySelector('.activeToMove'))
+                    }
+                }
+            }
         },
         moveFigure: function(){
             let figure
@@ -399,6 +436,7 @@ Vue.createApp({
             let startY = 0
     
             document.getElementById('checkmateField').addEventListener("mousedown", (e) => {
+                this.checkAttackField()
                 dragging = true
                 figure = document.elementFromPoint(e.clientX, e.clientY)
                 startArea = figure.parentElement;
@@ -481,6 +519,7 @@ Vue.createApp({
                 }
 
                 checkSubElement(event).append(figure)
+                this.deleteAllMove()
                 this.deleteActiveToMove()
                 //check if figure is moved
                 if(figure.parentElement != startArea){
@@ -522,7 +561,6 @@ Vue.createApp({
                     }
                 }
 
-                this.checkAttackField()
 
                 this.positionFigure=[]
                 figure.style.left = '';
