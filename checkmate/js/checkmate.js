@@ -81,16 +81,15 @@ Vue.createApp({
             let checkFigureMove = this.castlingMove
             //check rules white
             let arr = Array.from(document.getElementsByClassName('white'))
+            console.log(Array.from(document.getElementsByClassName('rowField')[rowNumber-1].getElementsByClassName('columnField')[columnNumber]))
             if(((checkFigureMove[0] == checkFigureMove[1]) || (checkFigureMove[0] == checkFigureMove[2])) && (arr.includes(figure))){
-                if(!document.getElementsByClassName('rowField')[rowNumber-1].getElementsByClassName('columnField')[columnNumber].includes('figure')){
-                    document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')  
-                }
+                document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
                 document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')  
             }
 
             //check rules black
             arr = Array.from(document.getElementsByClassName('black'))
-            if(((checkFigureMove[3] == checkFigureMove[4]) || (checkFigureMove[3] == checkFigureMove[5]))&& (arr.includes(figure))){
+            if(((checkFigureMove[3] == checkFigureMove[4]) || (checkFigureMove[3] == checkFigureMove[5])) && (arr.includes(figure))){
                 document.getElementsByClassName('rowField')[rowNumber-2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
                 document.getElementsByClassName('rowField')[rowNumber+2].getElementsByClassName('columnField')[columnNumber].insertAdjacentHTML("afterbegin",'<div class="activeToMove"></div>')
             }
@@ -394,7 +393,9 @@ Vue.createApp({
             }
             }
             this.checkAllMove()
+            //important
             this.deleteAllMove()
+
             figure = document.getElementById('bKing')
             this.getPosition(figure)
             for(let i = 1; i< 4; i++){
@@ -433,10 +434,16 @@ Vue.createApp({
     
             document.getElementById('checkmateField').addEventListener("mousedown", (e) => {
                 this.checkAttackField()
+                //important
                 this.deleteAllMove()
+
                 dragging = true
                 figure = document.elementFromPoint(e.clientX, e.clientY)
                 startArea = figure.parentElement;
+                if(!Array.from(document.querySelectorAll('.figure')).includes(figure)){
+                    return
+                }
+                console.log(figure)
                 this.getPosition(figure)
                 //sequence of moves / (check if figure is moved => mouseup)
                 if(this.chessMove=='white'){
@@ -494,6 +501,7 @@ Vue.createApp({
     
             document.body.addEventListener("mouseup", (event) => {
                 let pos = checkSubElement(event)
+                if(!pos)return;
                 if(pos.querySelector('.figure')){
                     pos.querySelector('.figure').remove()
                 }
@@ -540,18 +548,17 @@ Vue.createApp({
                     }
                 }
 
-
                 this.positionFigure=[]
                 figure.style.left = '';
                 figure.style.top = '';
                 dragging=false
             })
             function checkSubElement(event){
+                if(figure== document.getElementById('checkmateField')) return;
                 figure.style.display = 'none';
                 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
                 figure.style.display = 'block';
-                if (!elemBelow) return;
-                let droppableBelow = elemBelow.closest('.columnField').querySelector('.activeToMove');
+                let droppableBelow= elemBelow.closest('.columnField').querySelector('.activeToMove');
                 //off frendly fire
                 if(figure.classList.contains('white') && elemBelow.parentElement.querySelector('.white')){
                     return startArea;
